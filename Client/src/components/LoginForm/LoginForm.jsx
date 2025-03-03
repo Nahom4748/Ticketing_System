@@ -1,6 +1,6 @@
-// LoginForm.jsx
 import React from "react";
 import { Link } from "react-router-dom";
+import createAccService from "../../services/auth.service";
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -9,13 +9,44 @@ class LoginForm extends React.Component {
       email: "",
       password: "",
       error: "",
+      loading: false,
     };
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
-    // Add your login logic here
-    console.log("Login submitted:", this.state);
+    const { email, password } = this.state;
+
+    // Show loading spinner while waiting for the response
+    this.setState({ loading: true });
+
+    try {
+      // Replace with your actual login service URL
+      const response = await createAccService.login({
+        email,
+        password,
+      });
+      if (response.status === "success") {
+        // Handle successful login
+        this.setState({ error: "", loading: false });
+        const userToken = response?.user.token;
+        if (userToken) {
+          localStorage.setItem("authToken", JSON.stringify(response.user));
+          setIsLogged(true);
+          setUser(response.user);
+          navigate("/");
+        }
+      }
+      // Reset loading state
+    } catch (error) {
+      // Handle error, show error message
+      this.setState({
+        error: "Invalid email or password. Please try again.",
+        loading: false,
+      });
+    }
+
+    // Reset loading state
   };
 
   handleChange = (e) => {
@@ -24,15 +55,15 @@ class LoginForm extends React.Component {
 
   render() {
     return (
-      <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-gradient-to-r from-blue-500 to-purple-500 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
             Sign in to your account
           </h2>
         </div>
 
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-          <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+          <div className="bg-white py-8 px-4 shadow-lg sm:rounded-lg sm:px-10">
             <form className="space-y-6" onSubmit={this.handleSubmit}>
               <div>
                 <label
@@ -48,7 +79,7 @@ class LoginForm extends React.Component {
                     type="email"
                     autoComplete="email"
                     required
-                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                     value={this.state.email}
                     onChange={this.handleChange}
                   />
@@ -69,7 +100,7 @@ class LoginForm extends React.Component {
                     type="password"
                     autoComplete="current-password"
                     required
-                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                     value={this.state.password}
                     onChange={this.handleChange}
                   />
@@ -83,9 +114,14 @@ class LoginForm extends React.Component {
               <div>
                 <button
                   type="submit"
-                  className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
+                    this.state.loading
+                      ? "bg-gray-400"
+                      : "bg-blue-600 hover:bg-blue-700"
+                  } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
+                  disabled={this.state.loading}
                 >
-                  Sign in
+                  {this.state.loading ? "Signing In..." : "Sign in"}
                 </button>
               </div>
             </form>
