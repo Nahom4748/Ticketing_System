@@ -5,7 +5,6 @@ const jwt = require("jsonwebtoken");
 exports.signup = async (req, res) => {
   try {
     const { email, password, role } = req.body;
-    console.log(email, password, role);
     // Validate password strength
     if (
       !/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/.test(
@@ -56,8 +55,9 @@ exports.login = async (req, res) => {
       }
     );
 
-    res.json({
-      message: "Login successful",
+    res.status(200).json({
+      status: "success",
+      message: "User logged in successfully",
       token,
       user: { email, role: user.role },
     });

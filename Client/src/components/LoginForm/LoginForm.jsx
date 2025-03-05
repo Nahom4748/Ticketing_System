@@ -1,147 +1,151 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { FaSpinner, FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
 import createAccService from "../../services/auth.service";
+import AuthContext from "../../context/AuthContext";
 
-class LoginForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: "",
-      password: "",
-      error: "",
-      loading: false,
-    };
-  }
+const LoginForm = () => {
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  handleSubmit = async (e) => {
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const { email, password } = this.state;
-
-    // Show loading spinner while waiting for the response
-    this.setState({ loading: true });
+    setLoading(true);
+    setError("");
 
     try {
-      // Replace with your actual login service URL
-      const response = await createAccService.login({
-        email,
-        password,
-      });
+      const response = await createAccService.login(formData);
+      console.log(response);
       if (response.status === "success") {
-        // Handle successful login
-        this.setState({ error: "", loading: false });
-        const userToken = response?.user.token;
+        login(response.user); // Call login from AuthContext
+        const userToken = response.user;
+        console.log(userToken);
         if (userToken) {
-          localStorage.setItem("authToken", JSON.stringify(response.user));
-          setIsLogged(true);
-          setUser(response.user);
+          localStorage.setItem("authToken", JSON.stringify(response));
           navigate("/");
         }
+      } else {
+        throw new Error("Invalid credentials");
       }
-      // Reset loading state
     } catch (error) {
-      // Handle error, show error message
-      this.setState({
-        error: "Invalid email or password. Please try again.",
-        loading: false,
-      });
+      setError(error.message || "Invalid email or password. Please try again.");
+    } finally {
+      setLoading(false);
     }
-
-    // Reset loading state
   };
 
-  handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 flex items-center justify-center p-4">
+      <div className="w-full max-w-md space-y-8">
+        <div className="bg-white/5 backdrop-blur-xl rounded-xl p-8 shadow-2xl border border-white/10 transform transition-all hover:shadow-3xl">
+          <div className="text-center mb-10">
+            <h1 className="text-3xl font-bold text-white mb-2">Welcome Back</h1>
+            <p className="text-white/80">Sign in to continue to your account</p>
+          </div>
 
-  render() {
-    return (
-      <div className="min-h-screen bg-gradient-to-r from-blue-500 to-purple-500 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
-            Sign in to your account
-          </h2>
-        </div>
-
-        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-          <div className="bg-white py-8 px-4 shadow-lg sm:rounded-lg sm:px-10">
-            <form className="space-y-6" onSubmit={this.handleSubmit}>
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-700"
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {error && (
+              <div className="flex items-center bg-red-500/20 text-red-300 px-4 py-3 rounded-lg border border-red-500/30">
+                <svg
+                  className="w-5 h-5 mr-2 shrink-0"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
                 >
-                  Email address
-                </label>
-                <div className="mt-1">
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    required
-                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    value={this.state.email}
-                    onChange={this.handleChange}
+                  <path
+                    fillRule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                    clipRule="evenodd"
                   />
-                </div>
+                </svg>
+                <span className="text-sm">{error}</span>
               </div>
+            )}
 
-              <div>
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Password
-                </label>
-                <div className="mt-1">
-                  <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    autoComplete="current-password"
-                    required
-                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    value={this.state.password}
-                    onChange={this.handleChange}
-                  />
-                </div>
-              </div>
+            <div>
+              <label className="block text-sm font-medium text-white/90 mb-2">
+                Email Address
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all hover:border-white/20"
+                placeholder="name@company.com"
+                required
+              />
+            </div>
 
-              {this.state.error && (
-                <div className="text-red-500 text-sm">{this.state.error}</div>
-              )}
-
-              <div>
+            <div>
+              <label className="block text-sm font-medium text-white/90 mb-2">
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all hover:border-white/20 pr-12"
+                  placeholder="••••••••"
+                  required
+                />
                 <button
-                  type="submit"
-                  className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
-                    this.state.loading
-                      ? "bg-gray-400"
-                      : "bg-blue-600 hover:bg-blue-700"
-                  } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
-                  disabled={this.state.loading}
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full hover:bg-white/10 transition-colors"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
                 >
-                  {this.state.loading ? "Signing In..." : "Sign in"}
+                  {showPassword ? (
+                    <FaEyeSlash
+                      className="text-white/70 hover:text-white"
+                      size={18}
+                    />
+                  ) : (
+                    <FaEye
+                      className="text-white/70 hover:text-white"
+                      size={18}
+                    />
+                  )}
                 </button>
               </div>
-            </form>
-
-            <div className="mt-6 text-center">
-              <p className="text-sm text-gray-600">
-                Don't have an account?{" "}
-                <Link
-                  to="/signup"
-                  className="font-medium text-blue-600 hover:text-blue-500"
-                >
-                  Sign up
-                </Link>
-              </p>
             </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full flex items-center justify-center py-3.5 px-4 rounded-lg bg-gradient-to-r from-indigo-500 to-indigo-600 text-white hover:from-indigo-600 hover:to-indigo-700 transition-all"
+            >
+              {loading ? (
+                <FaSpinner className="animate-spin mr-2" />
+              ) : (
+                "Sign In"
+              )}
+            </button>
+          </form>
+
+          <div className="mt-8 text-center text-white/80">
+            <span>Don't have an account? </span>
+            <Link
+              to="/signup"
+              className="text-indigo-400 hover:text-indigo-300 font-medium"
+            >
+              Create account
+            </Link>
           </div>
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default LoginForm;
