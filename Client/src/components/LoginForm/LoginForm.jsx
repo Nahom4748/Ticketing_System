@@ -26,13 +26,8 @@ const LoginForm = () => {
       const response = await createAccService.login(formData);
       console.log(response);
       if (response.status === "success") {
-        login(response.user); // Call login from AuthContext
-        const userToken = response.user;
-        console.log(userToken);
-        if (userToken) {
-          localStorage.setItem("authToken", JSON.stringify(response));
-          navigate("/");
-        }
+        login(response); // Call login from AuthContext
+        navigate("/");
       } else {
         throw new Error("Invalid credentials");
       }

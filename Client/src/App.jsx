@@ -1,43 +1,65 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
+import React, { Component } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Hero from "./components/Hero/Hero";
 import SignupForm from "./components/SignupForm/SignupForm";
-import LoginFormWithNavigate from "./components/LoginForm/LoginFormWithNavigate"; // Import LoginFormWithNavigate
-import AdminDashboard from "./components/dashboard/AdminDashboard.jsx";
+import LoginFormWithNavigate from "./components/LoginForm/LoginFormWithNavigate";
+import AdminDashboard from "./components/dashboard/AdminDashboard";
+import UserDashboard from "./components/dashboard/UserDashboard";
+import PrivateAuthRoute from "../Auth/PrivateAuthRoute";
+import AuthContext from "./context/AuthContext";
+import SupportMenu from "./components/dashboard/SupportMenu";
+import UserPage from "./components/UserPage/UserPage";
+import UserNewTickets from "./components/UserPage/UserNewTickets";
+import UserNav from "./components/UserPage/UserNav";
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isLogged: false,
-      user: null, // Add state for the user
-    };
-  }
-
-  setIsLogged = (status) => {
-    this.setState({ isLogged: status });
-  };
-
-  setUser = (user) => {
-    this.setState({ user }); // Update the user state
-  };
+class App extends Component {
+  static contextType = AuthContext;
 
   render() {
+    const { isLogged, userType } = this.context;
+
     return (
       <div>
+        <UserNav />
         <Routes>
-          <Route path="/" element={<Hero />} />
-          <Route path="/signup" element={<SignupForm />} />
+          <Route path="/userdashboard" element={<UserDashboard />} />
+          <Route path="/UserPage" element={<UserPage />} />
+          <Route path="/new-ticket" element={<UserNewTickets />} />
+          {/* Redirect root path based on login status */}
           <Route
-            path="/login"
+            path="/"
             element={
-              <LoginFormWithNavigate
-                setIsLogged={this.setIsLogged} // Pass setIsLogged to the child
-                setUser={this.setUser} // Pass setUser to the child
-              />
+              isLogged ? (
+                userType === "admin" ? (
+                  <Navigate to="/admin" replace />
+                ) : (
+                  <Navigate to="/userdashboard" replace />
+                )
+              ) : (
+                <Hero />
+              )
             }
           />
-          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/signup" element={<SignupForm />} />
+          <Route path="/login" element={<LoginFormWithNavigate />} />
+
+          {/* Protected Routes */}
+          <Route
+            path="/admin"
+            element={
+              <PrivateAuthRoute requiredUserType="admin">
+                <AdminDashboard />
+              </PrivateAuthRoute>
+            }
+          />
+          <Route
+            path="/userdashboard"
+            element={
+              <PrivateAuthRoute requiredUserType="user">
+                <UserDashboard />
+              </PrivateAuthRoute>
+            }
+          />
         </Routes>
       </div>
     );

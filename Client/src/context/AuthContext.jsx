@@ -19,11 +19,13 @@ export class AuthProvider extends Component {
   checkAuth = async () => {
     try {
       const loggedInUser = await getAuth();
-      if (loggedInUser && loggedInUser?.user_token) {
+      console.log(loggedInUser);
+      if (loggedInUser && loggedInUser?.token) {
         this.setState({
           isLogged: true,
           user: loggedInUser,
-          userType: loggedInUser.user_role,
+          userType: loggedInUser.role,
+          userEmail: loggedInUser.email,
         });
       } else {
         this.setState({
@@ -44,12 +46,13 @@ export class AuthProvider extends Component {
 
   login = (user) => {
     localStorage.setItem("authToken", JSON.stringify(user));
-    this.setState({ isLogged: true, user, userType: user.user_role });
+    this.setState({ isLogged: true, user, userType: user.role });
   };
 
   logout = () => {
     localStorage.removeItem("authToken");
     this.setState({ isLogged: false, user: null, userType: null });
+    window.location.href = "/login";
   };
 
   render() {
