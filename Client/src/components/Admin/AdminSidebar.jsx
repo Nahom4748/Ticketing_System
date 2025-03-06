@@ -1,16 +1,14 @@
-// SupportMenu.jsx
 import React from "react";
 import { NavLink } from "react-router-dom";
 import {
-  FiHome,
-  FiPlus,
-  FiClock,
-  FiSettings,
-  FiUser,
-  FiLogOut,
-  FiChevronLeft,
-  FiChevronRight,
-} from "react-icons/fi";
+  FaList,
+  FaLock,
+  FaSignOutAlt,
+  FaCheckCircle,
+  FaTimesCircle,
+  FaArchive,
+  FaHourglassHalf,
+} from "react-icons/fa";
 
 const MenuItem = ({ icon: Icon, label, to, darkMode, isCollapsed }) => (
   <NavLink
@@ -23,7 +21,7 @@ const MenuItem = ({ icon: Icon, label, to, darkMode, isCollapsed }) => (
             ? "bg-gray-700 text-white"
             : "hover:bg-gray-700 text-gray-300"
           : isActive
-          ? "bg-indigo-50 text-indigo-600"
+          ? "bg-indigo-100 text-indigo-600"
           : "hover:bg-gray-100 text-gray-600"
       }
       ${isCollapsed ? "justify-center" : "justify-start"}
@@ -34,7 +32,7 @@ const MenuItem = ({ icon: Icon, label, to, darkMode, isCollapsed }) => (
   </NavLink>
 );
 
-const SupportMenu = ({ darkMode, isCollapsed, onToggle }) => {
+const AdminSidebar = ({ darkMode, isCollapsed, onToggle }) => {
   return (
     <div
       className={`fixed top-0 left-0 h-full z-50 shadow-lg transition-all duration-300
@@ -56,7 +54,7 @@ const SupportMenu = ({ darkMode, isCollapsed, onToggle }) => {
                   darkMode ? "text-white" : "text-gray-800"
                 }`}
               >
-                Support Portal
+                Admin Panel
               </h2>
             )}
             <button
@@ -66,9 +64,7 @@ const SupportMenu = ({ darkMode, isCollapsed, onToggle }) => {
                   ? "text-gray-300 hover:bg-gray-700"
                   : "text-gray-600 hover:bg-gray-100"
               }`}
-            >
-              {isCollapsed ? <FiChevronRight /> : <FiChevronLeft />}
-            </button>
+            ></button>
           </div>
         </div>
 
@@ -79,39 +75,51 @@ const SupportMenu = ({ darkMode, isCollapsed, onToggle }) => {
               darkMode ? "text-gray-400" : "text-gray-500"
             } text-sm mb-2 ${isCollapsed ? "hidden" : "block"}`}
           >
-            Main Menu
+            Ticket Management
           </div>
+
           <MenuItem
-            to="/dashboard"
-            icon={FiHome}
-            label="Dashboard"
+            to="/admin/tickets"
+            icon={FaList}
+            label="All Tickets"
             darkMode={darkMode}
             isCollapsed={isCollapsed}
           />
+
           <MenuItem
-            to="/Tickets-list"
-            icon={FiHome}
-            label="My Tickets"
+            to="/admin/pending"
+            icon={FaHourglassHalf}
+            label="Pending Tickets"
             darkMode={darkMode}
             isCollapsed={isCollapsed}
           />
+
           <MenuItem
-            to="/new-ticket"
-            icon={FiPlus}
-            label="New Ticket"
+            to="/admin/resolved"
+            icon={FaCheckCircle}
+            label="Resolved Tickets"
             darkMode={darkMode}
             isCollapsed={isCollapsed}
           />
+
           <MenuItem
-            to="/history"
-            icon={FiClock}
-            label="History"
+            to="/admin/rejected"
+            icon={FaTimesCircle}
+            label="Rejected Tickets"
+            darkMode={darkMode}
+            isCollapsed={isCollapsed}
+          />
+
+          <MenuItem
+            to="/admin/closed"
+            icon={FaArchive}
+            label="Closed Tickets"
             darkMode={darkMode}
             isCollapsed={isCollapsed}
           />
         </nav>
 
-        {/* Footer Menu */}
+        {/* Account Settings */}
         <div
           className={`p-4 border-t ${
             darkMode ? "border-gray-700" : "border-gray-200"
@@ -126,27 +134,26 @@ const SupportMenu = ({ darkMode, isCollapsed, onToggle }) => {
           </div>
           <nav className="space-y-1">
             <MenuItem
-              to="/settings"
-              icon={FiSettings}
-              label="Settings"
+              to="/admin/change-password"
+              icon={FaLock}
+              label="Change Password"
               darkMode={darkMode}
               isCollapsed={isCollapsed}
             />
-            <MenuItem
-              to="/profile"
-              icon={FiUser}
-              label="Profile"
-              darkMode={darkMode}
-              isCollapsed={isCollapsed}
-            />
+
             <button
               className={`w-full flex items-center p-3 rounded-lg transition-colors ${
                 darkMode
                   ? "hover:bg-gray-700 text-gray-300"
                   : "hover:bg-gray-100 text-gray-600"
               } ${isCollapsed ? "justify-center" : "justify-start"}`}
+              onClick={() => {
+                /* Add logout logic here */
+              }}
             >
-              <FiLogOut className={`text-lg ${isCollapsed ? "" : "mr-3"}`} />
+              <FaSignOutAlt
+                className={`text-lg ${isCollapsed ? "" : "mr-3"}`}
+              />
               {!isCollapsed && <span className="font-medium">Logout</span>}
             </button>
           </nav>
@@ -156,4 +163,4 @@ const SupportMenu = ({ darkMode, isCollapsed, onToggle }) => {
   );
 };
 
-export default SupportMenu;
+export default AdminSidebar;

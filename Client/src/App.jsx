@@ -3,14 +3,15 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Hero from "./components/Hero/Hero";
 import SignupForm from "./components/SignupForm/SignupForm";
 import LoginFormWithNavigate from "./components/LoginForm/LoginFormWithNavigate";
-import AdminDashboard from "./components/dashboard/AdminDashboard";
 import UserDashboard from "./components/dashboard/UserDashboard";
 import PrivateAuthRoute from "../Auth/PrivateAuthRoute";
 import AuthContext from "./context/AuthContext";
-import SupportMenu from "./components/dashboard/SupportMenu";
 import UserPage from "./components/UserPage/UserPage";
 import UserNewTickets from "./components/UserPage/UserNewTickets";
 import UserNav from "./components/UserPage/UserNav";
+import Tickets from "./components/UserPage/Tickets";
+import ClosedTickets from "./components/UserPage/ClosedTickets";
+import AdminDashbordMenu from "./components/AdminPages/AdminDashbordMenu";
 
 class App extends Component {
   static contextType = AuthContext;
@@ -25,6 +26,9 @@ class App extends Component {
           <Route path="/userdashboard" element={<UserDashboard />} />
           <Route path="/UserPage" element={<UserPage />} />
           <Route path="/new-ticket" element={<UserNewTickets />} />
+          <Route path="/Tickets-list" element={<Tickets />} />
+          <Route path="/history" element={<ClosedTickets />} />
+          <Route path="/AdminDashboard" element={<AdminDashbordMenu />} />
           {/* Redirect root path based on login status */}
           <Route
             path="/"
@@ -48,7 +52,7 @@ class App extends Component {
             path="/admin"
             element={
               <PrivateAuthRoute requiredUserType="admin">
-                <AdminDashboard />
+                <AdminDashbordMenu />
               </PrivateAuthRoute>
             }
           />

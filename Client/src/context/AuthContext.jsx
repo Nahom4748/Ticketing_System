@@ -10,6 +10,7 @@ export class AuthProvider extends Component {
     isLogged: false,
     user: null,
     userType: null,
+    usrId: null,
   };
 
   async componentDidMount() {
@@ -26,12 +27,14 @@ export class AuthProvider extends Component {
           user: loggedInUser,
           userType: loggedInUser.role,
           userEmail: loggedInUser.email,
+          userId: loggedInUser.id,
         });
       } else {
         this.setState({
           isLogged: false,
           user: null,
           userType: null,
+          userId: null,
         });
       }
     } catch (error) {
@@ -40,18 +43,19 @@ export class AuthProvider extends Component {
         isLogged: false,
         user: null,
         userType: null,
+        userId: null,
       });
     }
   };
 
   login = (user) => {
     localStorage.setItem("authToken", JSON.stringify(user));
-    this.setState({ isLogged: true, user, userType: user.role });
+    this.setState({ isLogged: true, user, userType: user.role, Id: user.id });
   };
 
   logout = () => {
     localStorage.removeItem("authToken");
-    this.setState({ isLogged: false, user: null, userType: null });
+    this.setState({ isLogged: false, user: null, userType: null, Id: null });
     window.location.href = "/login";
   };
 
@@ -62,6 +66,7 @@ export class AuthProvider extends Component {
           isLogged: this.state.isLogged,
           user: this.state.user,
           userType: this.state.userType,
+          userId: this.state.userId,
           login: this.login,
           logout: this.logout,
         }}

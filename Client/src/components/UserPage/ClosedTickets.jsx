@@ -1,10 +1,9 @@
 // UserNewTickets.jsx
 import React, { useState } from "react";
-import NewTicket from "../tickets/NewTicket";
 import SupportMenu from "../dashboard/SupportMenu";
-import UserNav from "./UserNav";
+import ClosedTicketsList from "../tickets/ClosedTicketsList";
 
-function UserNewTickets() {
+function ClosedTickets() {
   const [darkMode, setDarkMode] = useState(false);
   const [isMenuCollapsed, setIsMenuCollapsed] = useState(false);
 
@@ -30,7 +29,7 @@ function UserNewTickets() {
           } p-8`}
         >
           <div className="max-w-4xl mx-auto">
-            <NewTicket darkMode={darkMode} />
+            <ClosedTicketsList darkMode={darkMode} />
           </div>
         </main>
       </div>
@@ -38,4 +37,4 @@ function UserNewTickets() {
   );
 }
 
-export default UserNewTickets;
+export default ClosedTickets;

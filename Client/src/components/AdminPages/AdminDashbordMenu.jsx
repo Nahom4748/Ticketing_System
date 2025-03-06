@@ -1,10 +1,9 @@
 // UserNewTickets.jsx
 import React, { useState } from "react";
-import NewTicket from "../tickets/NewTicket";
-import SupportMenu from "../dashboard/SupportMenu";
-import UserNav from "./UserNav";
+import AdminDashboard from "../Admin/AdminDashboard";
+import AdminSidebar from "../Admin/AdminSidebar";
 
-function UserNewTickets() {
+function AdminDashbordMenu() {
   const [darkMode, setDarkMode] = useState(false);
   const [isMenuCollapsed, setIsMenuCollapsed] = useState(false);
 
@@ -17,7 +16,7 @@ function UserNewTickets() {
             isMenuCollapsed ? "w-20" : "w-64"
           }`}
         >
-          <SupportMenu
+          <AdminSidebar
             darkMode={darkMode}
             isCollapsed={isMenuCollapsed}
             onToggle={() => setIsMenuCollapsed(!isMenuCollapsed)}
@@ -30,7 +29,7 @@ function UserNewTickets() {
           } p-8`}
         >
           <div className="max-w-4xl mx-auto">
-            <NewTicket darkMode={darkMode} />
+            <AdminDashboard darkMode={darkMode} />
           </div>
         </main>
       </div>
@@ -38,4 +37,4 @@ function UserNewTickets() {
   );
 }
 
-export default UserNewTickets;
+export default AdminDashbordMenu;

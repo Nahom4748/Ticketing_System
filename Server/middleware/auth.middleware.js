@@ -24,14 +24,14 @@ const authenticate = async (req, res, next) => {
 
 const authorizeAdmin = (req, res, next) => {
   if (req.user.role !== "admin") {
-    return res.status(403).json({ message: "Admin access required" });
+    return res.status(403).json({ message: "User access required" });
   }
   next();
 };
 
 const authorizeUser = (req, res, next) => {
   if (req.user.role !== "user") {
-    return res.status(403).json({ message: "User No have access " });
+    return res.status(403).json({ message: "User No have  access " });
   }
   next();
 };
