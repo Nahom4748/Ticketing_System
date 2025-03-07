@@ -103,15 +103,7 @@ const AdminSidebar = ({ darkMode, isCollapsed, onToggle }) => {
           />
 
           <MenuItem
-            to="/admin/rejected"
-            icon={FaTimesCircle}
-            label="Rejected Tickets"
-            darkMode={darkMode}
-            isCollapsed={isCollapsed}
-          />
-
-          <MenuItem
-            to="/admin/closed"
+            to="/Closed-TicketList"
             icon={FaArchive}
             label="Closed Tickets"
             darkMode={darkMode}

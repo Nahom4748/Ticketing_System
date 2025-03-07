@@ -19,7 +19,7 @@ const {
 
 router.post("/", [authenticate, authorizeUser], createTicket);
 router.get("/", authenticate, getTickets);
-router.get("/my-tickets", [authenticate, authorizeAdmin], getUserTickets);
+router.get("/my-tickets", [authenticate, authorizeUser], getUserTickets);
 router.get("/stats", [authenticate], stats);
 router.get("/recent", [authenticate], getRecentTickets);
 router.put("/:id", [authenticate, authorizeAdmin], updateTicketStatus);

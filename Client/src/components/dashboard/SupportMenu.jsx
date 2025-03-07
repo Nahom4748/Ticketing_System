@@ -82,7 +82,7 @@ const SupportMenu = ({ darkMode, isCollapsed, onToggle }) => {
             Main Menu
           </div>
           <MenuItem
-            to="/dashboard"
+            to="/UserPage"
             icon={FiHome}
             label="Dashboard"
             darkMode={darkMode}

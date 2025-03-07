@@ -21,13 +21,13 @@ export class AuthProvider extends Component {
     try {
       const loggedInUser = await getAuth();
       console.log(loggedInUser);
-      if (loggedInUser && loggedInUser?.token) {
+      if (loggedInUser) {
         this.setState({
           isLogged: true,
-          user: loggedInUser,
-          userType: loggedInUser.role,
-          userEmail: loggedInUser.email,
-          userId: loggedInUser.id,
+          user: loggedInUser.user,
+          userType: loggedInUser.user.role,
+          userEmail: loggedInUser.user.email,
+          userId: loggedInUser.user.id,
         });
       } else {
         this.setState({
@@ -50,7 +50,13 @@ export class AuthProvider extends Component {
 
   login = (user) => {
     localStorage.setItem("authToken", JSON.stringify(user));
-    this.setState({ isLogged: true, user, userType: user.role, Id: user.id });
+    console.log(user.user);
+    this.setState({
+      isLogged: true,
+      user: user.user,
+      userType: user.user.role,
+      Id: user.user.id,
+    });
   };
 
   logout = () => {

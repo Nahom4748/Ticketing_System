@@ -1,21 +1,18 @@
 const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+
+dotenv.config();
+
+// const MONGO_URI = process.env.MONGO_URI || "";
 
 const connectDB = async () => {
   try {
-    mongoose.set("strictQuery", false);
+    await mongoose.connect(process.env.MONGO_URI);
 
-    console.log("Connecting to MongoDB...");
-    console.log("MONGO_URI:", process.env.MONGO_URI ? "Loaded" : "Not Loaded"); // Debug
-
-    await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-
-    console.log("✅ MongoDB connected successfully!");
+    console.log("✅ MongoDB Connected...");
   } catch (error) {
-    console.error("❌ MongoDB connection failed:", error.message);
-    process.exit(1);
+    console.error("❌ MongoDB Connection Error:", error);
+    process.exit(1); // Exit the process if connection fails
   }
 };
 

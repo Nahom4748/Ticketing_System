@@ -13,7 +13,7 @@ const PrivateAuthRoute = ({ children, requiredUserType }) => {
     // Redirect to the user's dashboard if they don't have the required type
     return (
       <Navigate
-        to={userType === "admin" ? "/admin" : "/userdashboard"}
+        to={userType === "admin" ? "/AdminDashbord" : "/UserPage"}
         replace
       />
     );

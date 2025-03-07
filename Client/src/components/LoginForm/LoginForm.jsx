@@ -24,7 +24,6 @@ const LoginForm = () => {
 
     try {
       const response = await createAccService.login(formData);
-      console.log(response);
       if (response.status === "success") {
         login(response); // Call login from AuthContext
         navigate("/");

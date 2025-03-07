@@ -15,6 +15,8 @@ import AdminDashbordMenu from "./components/AdminPages/AdminDashbordMenu";
 import AdminListOfticketsMenu from "./components/AdminPages/AdminListOfticketsMenu";
 import AdminTicketListResolved from "./components/Admin/AdminTicketListResolved";
 import AdminTicketListResolvedMenu from "./components/AdminPages/AdminTicketListResolvedMenu";
+import AdminTicketListClosed from "./components/Admin/AdminTicketListClosed";
+import AdminTicketListClosedMenu from "./components/AdminPages/AdminTicketListClosedMenu";
 
 class App extends Component {
   static contextType = AuthContext;
@@ -26,26 +28,15 @@ class App extends Component {
       <div>
         <UserNav />
         <Routes>
-          <Route path="/userdashboard" element={<UserDashboard />} />
-          <Route path="/UserPage" element={<UserPage />} />
-          <Route path="/new-ticket" element={<UserNewTickets />} />
-          <Route path="/Tickets-list" element={<Tickets />} />
-          <Route path="/history" element={<ClosedTickets />} />
-          <Route path="/AdminDashbord" element={<AdminDashbordMenu />} />
-          <Route path="/Open-Ticket" element={<AdminListOfticketsMenu />} />
-          <Route
-            path="/Resolve-TicketList"
-            element={<AdminTicketListResolvedMenu />}
-          />
           {/* Redirect root path based on login status */}
           <Route
             path="/"
             element={
               isLogged ? (
                 userType === "admin" ? (
-                  <Navigate to="/admin" replace />
+                  <Navigate to="/AdminDashbord" replace />
                 ) : (
-                  <Navigate to="/userdashboard" replace />
+                  <Navigate to="/UserPage" replace />
                 )
               ) : (
                 <Hero />
@@ -57,7 +48,7 @@ class App extends Component {
 
           {/* Protected Routes */}
           <Route
-            path="/admin"
+            path="/AdminDashbord"
             element={
               <PrivateAuthRoute requiredUserType="admin">
                 <AdminDashbordMenu />
@@ -65,10 +56,66 @@ class App extends Component {
             }
           />
           <Route
-            path="/userdashboard"
+            path="/Closed-TicketList"
+            element={
+              <PrivateAuthRoute requiredUserType="admin">
+                <AdminTicketListClosedMenu />
+              </PrivateAuthRoute>
+            }
+          />
+          <Route
+            path="/Resolve-TicketList"
+            element={
+              <PrivateAuthRoute requiredUserType="admin">
+                <AdminTicketListResolvedMenu />
+              </PrivateAuthRoute>
+            }
+          />
+          <Route
+            path="/Open-Ticket"
+            element={
+              <PrivateAuthRoute requiredUserType="admin">
+                <AdminListOfticketsMenu />
+              </PrivateAuthRoute>
+            }
+          />
+          <Route
+            path="/Open-Ticket"
+            element={
+              <PrivateAuthRoute requiredUserType="admin">
+                <AdminListOfticketsMenu />
+              </PrivateAuthRoute>
+            }
+          />
+          <Route
+            path="/UserPage"
             element={
               <PrivateAuthRoute requiredUserType="user">
-                <UserDashboard />
+                <UserPage />
+              </PrivateAuthRoute>
+            }
+          />
+          <Route
+            path="/history"
+            element={
+              <PrivateAuthRoute requiredUserType="user">
+                <ClosedTickets />
+              </PrivateAuthRoute>
+            }
+          />
+          <Route
+            path="/Tickets-list"
+            element={
+              <PrivateAuthRoute requiredUserType="user">
+                <Tickets />
+              </PrivateAuthRoute>
+            }
+          />
+          <Route
+            path="/new-ticket"
+            element={
+              <PrivateAuthRoute requiredUserType="user">
+                <UserNewTickets />
               </PrivateAuthRoute>
             }
           />
