@@ -10,7 +10,8 @@ dotenv.config();
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+//cors
+app.use(cors({ origin: "*", credentials: true }));
 
 // Connect to Database
 connectDB();
