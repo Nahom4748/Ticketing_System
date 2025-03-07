@@ -87,10 +87,46 @@ export const getRecentTickets = async () => {
     );
   }
 };
+
+const updateTicketStatus = async (ticketId, updateData) => {
+  try {
+    const authData = getAuthToken();
+    const response = await axios.put(
+      `${API_URL}/api/tickets/${ticketId}`,
+      JSON.stringify(updateData), // Ensure it's properly formatted JSON
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authData.token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to update ticket status");
+  }
+};
+
+export const getAllTickets = async () => {
+  const authData = getAuthToken();
+  try {
+    const response = await axios.get(`${API_URL}/api/tickets`, {
+      headers: {
+        Authorization: `Bearer ${authData?.token}`,
+      },
+    });
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || "Failed to fetch tickets");
+  }
+};
 const TicketService = {
   createTicket,
   getMyTickets,
   getTicketStats,
+  getAllTickets,
   getRecentTickets,
+  updateTicketStatus,
 };
 export default TicketService;

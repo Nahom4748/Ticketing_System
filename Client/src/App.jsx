@@ -12,6 +12,9 @@ import UserNav from "./components/UserPage/UserNav";
 import Tickets from "./components/UserPage/Tickets";
 import ClosedTickets from "./components/UserPage/ClosedTickets";
 import AdminDashbordMenu from "./components/AdminPages/AdminDashbordMenu";
+import AdminListOfticketsMenu from "./components/AdminPages/AdminListOfticketsMenu";
+import AdminTicketListResolved from "./components/Admin/AdminTicketListResolved";
+import AdminTicketListResolvedMenu from "./components/AdminPages/AdminTicketListResolvedMenu";
 
 class App extends Component {
   static contextType = AuthContext;
@@ -28,7 +31,12 @@ class App extends Component {
           <Route path="/new-ticket" element={<UserNewTickets />} />
           <Route path="/Tickets-list" element={<Tickets />} />
           <Route path="/history" element={<ClosedTickets />} />
-          <Route path="/AdminDashboard" element={<AdminDashbordMenu />} />
+          <Route path="/AdminDashbord" element={<AdminDashbordMenu />} />
+          <Route path="/Open-Ticket" element={<AdminListOfticketsMenu />} />
+          <Route
+            path="/Resolve-TicketList"
+            element={<AdminTicketListResolvedMenu />}
+          />
           {/* Redirect root path based on login status */}
           <Route
             path="/"

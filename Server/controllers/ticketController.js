@@ -87,7 +87,6 @@ exports.getTickets = async (req, res) => {
   }
 };
 
-// Get ticket statistics
 exports.stats = async (req, res) => {
   try {
     const stats = await Ticket.aggregate([
@@ -116,7 +115,8 @@ exports.stats = async (req, res) => {
           priorityStats: [
             {
               $group: {
-                _id: "$priority",
+                // Fix 1: Handle null priorities at the database level
+                _id: { $ifNull: ["$priority", "unclassified"] },
                 count: { $sum: 1 },
               },
             },
@@ -135,10 +135,12 @@ exports.stats = async (req, res) => {
       },
     ]);
 
-    // Transform priorities array to object with required fields
     const result = stats[0] || {};
+
+    // Fix 2: Add additional null safety in reduce
     const priorityMap = (result.priorities || []).reduce((acc, curr) => {
-      acc[curr._id.toLowerCase()] = curr.count;
+      const priorityKey = (curr._id || "unclassified").toLowerCase();
+      acc[priorityKey] = curr.count;
       return acc;
     }, {});
 
@@ -152,6 +154,7 @@ exports.stats = async (req, res) => {
       mediumPriority: priorityMap.medium || 0,
       lowPriority: priorityMap.low || 0,
       criticalPriority: priorityMap.critical || 0,
+      unclassifiedPriority: priorityMap.unclassified || 0,
     };
 
     res.json({
@@ -179,8 +182,9 @@ exports.getRecentTickets = async (req, res) => {
       success: true,
       data: tickets.map((ticket) => ({
         ...ticket,
-        ticketId: ticket._id.toString().slice(-6).toUpperCase(),
-        createdAt: ticket.createdAt.toISOString(),
+        // Added null safety for ticket ID transformation
+        ticketId: (ticket._id?.toString()?.slice(-6) || "------").toUpperCase(),
+        createdAt: ticket.createdAt?.toISOString() || new Date().toISOString(),
       })),
     });
   } catch (error) {
@@ -192,12 +196,33 @@ exports.getRecentTickets = async (req, res) => {
   }
 };
 exports.updateTicketStatus = async (req, res) => {
-  const ticket = await Ticket.findByIdAndUpdate(
-    req.params.id,
-    { status: req.body.status },
-    { new: true }
-  );
-  res.json(ticket);
+  try {
+    if (!req.body.status) {
+      return res.status(400).json({ message: "Status is required" });
+    }
+
+    console.log(
+      "Updating Ticket ID:",
+      req.params.id,
+      "New Status:",
+      req.body.status
+    );
+
+    const ticket = await Ticket.findByIdAndUpdate(
+      req.params.id,
+      { status: req.body.status },
+      { new: true }
+    );
+
+    if (!ticket) {
+      return res.status(404).json({ message: "Ticket not found" });
+    }
+
+    res.json(ticket);
+  } catch (error) {
+    console.error("Error updating ticket status:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 };
 
 exports.deleteTicket = async (req, res) => {

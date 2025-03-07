@@ -79,23 +79,23 @@ const AdminSidebar = ({ darkMode, isCollapsed, onToggle }) => {
           </div>
 
           <MenuItem
-            to="/admin/tickets"
+            to="/AdminDashbord"
             icon={FaList}
-            label="All Tickets"
+            label="Dashbord"
             darkMode={darkMode}
             isCollapsed={isCollapsed}
           />
 
           <MenuItem
-            to="/admin/pending"
+            to="/Open-Ticket"
             icon={FaHourglassHalf}
-            label="Pending Tickets"
+            label="New Order Tickets"
             darkMode={darkMode}
             isCollapsed={isCollapsed}
           />
 
           <MenuItem
-            to="/admin/resolved"
+            to="/Resolve-TicketList"
             icon={FaCheckCircle}
             label="Resolved Tickets"
             darkMode={darkMode}
