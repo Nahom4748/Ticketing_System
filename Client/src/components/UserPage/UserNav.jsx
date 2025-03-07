@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { FiUser, FiPlus, FiLogOut, FiLock, FiMenu } from "react-icons/fi";
-import AuthContext from "../../context/AuthContext";
+import AuthContext from "../../context/AuthContext.js";
 
 const UserNav = ({
   darkMode,

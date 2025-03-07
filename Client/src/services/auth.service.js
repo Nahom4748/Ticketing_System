@@ -1,5 +1,5 @@
 import axios from "axios";
-import API_URL from "../util/baseURL";
+import API_URL from "../util/baseURL.js";
 
 // Signup function
 const signup = async ({ email, password, role }) => {

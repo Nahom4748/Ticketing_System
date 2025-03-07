@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { FaPaperPlane } from "react-icons/fa";
-import TicketService from "../../services/ticket.service";
+import TicketService from "../../services/ticket.service.jxs";
 
 class NewTicket extends Component {
   constructor(props) {

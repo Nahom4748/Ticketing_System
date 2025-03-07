@@ -1,22 +1,19 @@
 import React, { Component } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import Hero from "./components/Hero/Hero";
-import SignupForm from "./components/SignupForm/SignupForm";
-import LoginFormWithNavigate from "./components/LoginForm/LoginFormWithNavigate";
-import UserDashboard from "./components/dashboard/UserDashboard";
-import PrivateAuthRoute from "../Auth/PrivateAuthRoute";
-import AuthContext from "./context/AuthContext";
-import UserPage from "./components/UserPage/UserPage";
-import UserNewTickets from "./components/UserPage/UserNewTickets";
-import UserNav from "./components/UserPage/UserNav";
-import Tickets from "./components/UserPage/Tickets";
-import ClosedTickets from "./components/UserPage/ClosedTickets";
-import AdminDashbordMenu from "./components/AdminPages/AdminDashbordMenu";
-import AdminListOfticketsMenu from "./components/AdminPages/AdminListOfticketsMenu";
-import AdminTicketListResolved from "./components/Admin/AdminTicketListResolved";
-import AdminTicketListResolvedMenu from "./components/AdminPages/AdminTicketListResolvedMenu";
-import AdminTicketListClosed from "./components/Admin/AdminTicketListClosed";
-import AdminTicketListClosedMenu from "./components/AdminPages/AdminTicketListClosedMenu";
+import Hero from "./components/Hero/Hero.jsx";
+import SignupForm from "./components/SignupForm/SignupForm.jsx";
+import LoginFormWithNavigate from "./components/LoginForm/LoginFormWithNavigate.jsx";
+import PrivateAuthRoute from "../Auth/PrivateAuthRoute.jsx";
+import AuthContext from "./context/AuthContext.jsx";
+import UserPage from "./components/UserPage/UserPage.jsx";
+import UserNewTickets from "./components/UserPage/UserNewTickets.jsx";
+import UserNav from "./components/UserPage/UserNav.jsx";
+import Tickets from "./components/UserPage/Tickets.jsx";
+import ClosedTickets from "./components/UserPage/ClosedTickets.jsx";
+import AdminDashbordMenu from "./components/AdminPages/AdminDashbordMenu.jsx";
+import AdminListOfticketsMenu from "./components/AdminPages/AdminListOfticketsMenu.jsx";
+import AdminTicketListResolvedMenu from "./components/AdminPages/AdminTicketListResolvedMenu.jsx";
+import AdminTicketListClosedMenu from "./components/AdminPages/AdminTicketListClosedMenu.jsx";
 
 class App extends Component {
   static contextType = AuthContext;

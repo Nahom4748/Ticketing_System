@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import LoginForm from "./LoginForm"; // Make sure the import path is correct
+import LoginForm from "./LoginForm.jsx"; // Make sure the import path is correct
 
 function LoginFormWithNavigate(props) {
   const navigate = useNavigate();

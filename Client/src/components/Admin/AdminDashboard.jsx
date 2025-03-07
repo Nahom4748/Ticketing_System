@@ -21,7 +21,7 @@ import {
 import {
   getTicketStats,
   getRecentTickets,
-} from "../../services/ticket.service";
+} from "../../services/ticket.service.js";
 
 ChartJS.register(
   CategoryScale,

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import TicketService from "../../services/ticket.service";
+import TicketService from "../../services/ticket.service.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCheckCircle,

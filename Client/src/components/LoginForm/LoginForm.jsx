@@ -1,8 +1,8 @@
 import React, { useState, useContext } from "react";
 import { FaSpinner, FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import createAccService from "../../services/auth.service";
-import AuthContext from "../../context/AuthContext";
+import createAccService from "../../services/auth.service.js";
+import AuthContext from "../../context/AuthContext.jx";
 
 const LoginForm = () => {
   const { login } = useContext(AuthContext);

@@ -1,5 +1,5 @@
 import React, { createContext, Component } from "react";
-import getAuth from "../util/userAuthHeader";
+import getAuth from "../util/userAuthHeader.js";
 
 const AuthContext = createContext();
 

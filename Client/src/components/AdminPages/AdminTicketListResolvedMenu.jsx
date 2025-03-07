@@ -1,7 +1,7 @@
 // UserNewTickets.jsx
 import React, { useState } from "react";
-import AdminSidebar from "../Admin/AdminSidebar";
-import AdminTicketListResolved from "../Admin/AdminTicketListResolved";
+import AdminSidebar from "../Admin/AdminSidebar.jsx";
+import AdminTicketListResolved from "../Admin/AdminTicketListResolved.jsx";
 
 function AdminTicketListResolvedMenu() {
   const [darkMode, setDarkMode] = useState(false);

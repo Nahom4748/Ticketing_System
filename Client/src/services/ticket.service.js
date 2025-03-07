@@ -1,5 +1,5 @@
 import axios from "axios";
-import API_URL from "../util/baseURL";
+import API_URL from "../util/baseURL.js";
 
 const getAuthToken = () => {
   const storedUser = localStorage.getItem("authToken");
