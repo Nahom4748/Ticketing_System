@@ -6,7 +6,6 @@ const userAuthHeader = async () => {
   if (user) {
     user.role = user.role;
     user.email = user.email;
-    console.log(user);
     return user;
   } else {
     return {};

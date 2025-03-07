@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { format } from "date-fns";
-import TicketService from "../../services/ticket.service.jsx";
+import TicketService from "../../services/ticket.service";
 import {
   FaSpinner,
   FaExclamationCircle,

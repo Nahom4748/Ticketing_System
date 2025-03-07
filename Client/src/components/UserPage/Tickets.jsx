@@ -1,7 +1,7 @@
 // UserNewTickets.jsx
 import React, { useState } from "react";
-import SupportMenu from "../dashboard/SupportMenu.jsx";
-import TicketList from "../tickets/TicketList.jsx";
+import SupportMenu from "../dashboard/SupportMenu";
+import TicketList from "../tickets/TicketList";
 
 function Tickets() {
   const [darkMode, setDarkMode] = useState(false);

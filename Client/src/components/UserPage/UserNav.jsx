@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { FiUser, FiPlus, FiLogOut, FiLock, FiMenu } from "react-icons/fi";
-import AuthContext from "../../context/AuthContext.js";
+import AuthContext from "../../context/AuthContext";
 
 const UserNav = ({
   darkMode,
@@ -70,10 +70,10 @@ const UserNav = ({
                     )}
                     <div className="hidden sm:block text-left">
                       <p className={`text-sm font-medium `}>
-                        {user.user?.role || "Guest"}
+                        {user?.role || "Guest"}
                       </p>
                       <p className={`text-xs `}>
-                        {user.user?.email || "Not logged in"}
+                        {user?.email || "Not logged in"}
                       </p>
                     </div>
                   </button>

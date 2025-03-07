@@ -1,7 +1,7 @@
 // UserNewTickets.jsx
 import React, { useState } from "react";
-import SupportMenu from "../dashboard/SupportMenu.jsx";
-import ClosedTicketsList from "../tickets/ClosedTicketsList.jxs";
+import SupportMenu from "../dashboard/SupportMenu";
+import ClosedTicketsList from "../tickets/ClosedTicketsList";
 
 function ClosedTickets() {
   const [darkMode, setDarkMode] = useState(false);
