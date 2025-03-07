@@ -1,6 +1,6 @@
 import React from "react";
-import SupportMenu from "../dashboard/SupportMenu.jsx";
-import UserDashboard from "../dashboard/UserDashboard.jxs";
+import SupportMenu from "../dashboard/SupportMenu";
+import UserDashboard from "../dashboard/UserDashboard";
 
 function UserPage() {
   return (

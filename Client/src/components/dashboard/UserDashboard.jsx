@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { FiSun, FiMoon, FiArrowRight } from "react-icons/fi";
 
-const WelcomePage = ({ darkMode, toggleDarkMode }) => {
+const UserDashboard = ({ darkMode, toggleDarkMode }) => {
   return (
     <div
       className={`min-h-screen transition-colors duration-300 ${
@@ -152,4 +152,4 @@ const WelcomePage = ({ darkMode, toggleDarkMode }) => {
   );
 };
 
-export default WelcomePage;
+export default UserDashboard;
